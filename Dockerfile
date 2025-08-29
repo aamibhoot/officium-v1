@@ -17,8 +17,14 @@ RUN corepack enable pnpm && pnpm run build
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV PORT=8080
+
+# Copy standalone build output
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
-EXPOSE 3000
-CMD ["node", "server.js"]
+EXPOSE 8080
+
+# Run Next.js server, forcing it to use Cloud Run's PORT
+CMD ["sh", "-c", "node server.js -p ${PORT}"]
