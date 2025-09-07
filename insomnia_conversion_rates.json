@@ -1,0 +1,172 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-09-06T12:00:00.000Z",
+  "__export_source": "gemini-cli",
+  "resources": [
+    {
+      "_id": "req_create_conversion_rate",
+      "parentId": "fld_conversion_rates",
+      "modified": 1678886400000,
+      "created": 1678886400000,
+      "url": "{{ base_url }}/api/conversion-rates",
+      "name": "Create Conversion Rate",
+      "description": "Creates a new conversion rate entry.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rate\": 125.50,
+  \"month\": \"2025-09-01T00:00:00.000Z\"
+}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Cookie",
+          "value": "auth_session={{ auth_session_cookie }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1678886400000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_all_conversion_rates",
+      "parentId": "fld_conversion_rates",
+      "modified": 1678886400000,
+      "created": 1678886400000,
+      "url": "{{ base_url }}/api/conversion-rates",
+      "name": "Get All Conversion Rates",
+      "description": "Retrieves all conversion rate entries.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Cookie",
+          "value": "auth_session={{ auth_session_cookie }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1678886400000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_current_conversion_rate",
+      "parentId": "fld_conversion_rates",
+      "modified": 1678886400000,
+      "created": 1678886400000,
+      "url": "{{ base_url }}/api/conversion-rates?current=true",
+      "name": "Get Current Conversion Rate",
+      "description": "Retrieves the latest conversion rate.",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_current_rate",
+          "name": "current",
+          "value": "true",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        {
+          "name": "Cookie",
+          "value": "auth_session={{ auth_session_cookie }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1678886400000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_monthly_conversion_rate",
+      "parentId": "fld_conversion_rates",
+      "modified": 1678886400000,
+      "created": 1678886400000,
+      "url": "{{ base_url }}/api/conversion-rates?yearmonth=202509",
+      "name": "Get Monthly Conversion Rate",
+      "description": "Retrieves the latest conversion rate for a specific month (YYYYMM).",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_monthly_rate",
+          "name": "yearmonth",
+          "value": "202509",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        {
+          "name": "Cookie",
+          "value": "auth_session={{ auth_session_cookie }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1678886400000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_conversion_rates",
+      "parentId": "wrk_main",
+      "modified": 1678886400000,
+      "created": 1678886400000,
+      "name": "Conversion Rates API",
+      "description": "API endpoints for managing conversion rates.",
+      "environment": {
+        "base_url": "http://localhost:3000",
+        "auth_session_cookie": ""
+      },
+      "environmentPropertyOrder": [
+        "base_url",
+        "auth_session_cookie"
+      ],
+      "metaSortKey": -1678886400000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_main",
+      "modified": 1678886400000,
+      "created": 1678886400000,
+      "name": "My Project",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    }
+  ]
+}

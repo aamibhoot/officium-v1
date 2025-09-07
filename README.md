@@ -6,10 +6,25 @@ An application for managing office tasks.
 
 Officium is a modern, intuitive application designed to streamline office management and enhance productivity. It provides a suite of tools for task tracking, team collaboration, and resource management, all within a clean and user-friendly interface.
 
+## Features
+
+Based on the current project structure, the following features have been implemented:
+
+*   **Authentication**: User registration and login system.
+    *   Sign Up page (`/auth/signup`)
+    *   Login page (`/auth/login`)
+*   **Protected Routes**: A middleware setup to protect specific routes, ensuring only authenticated users can access them.
+*   **Dashboard**: A central dashboard for authenticated users, available at `/dashboard`.
+*   **User Profile**: A dedicated page for users to view their profile information (`/profile`).
+*   **API Layer**: Backend authentication routes handled via Next.js API routes.
+*   **Component-Based UI**: A rich set of reusable UI components built with `shadcn/ui`.
+
 ## Tech Stack
 
-- **Framework**: [Next.js](https://nextjs.org/)
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Authentication**: [NextAuth.js](https://next-auth.js.org/)
+- **Database ORM**: [Prisma](https://www.prisma.io/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
 - **Package Manager**: [pnpm](https://pnpm.io/)
@@ -64,24 +79,3 @@ docker run -p 3000:3000 officium-app
 
 - **Name**: Aami Bhoot
 - **GitHub**: [aamibhoot](https://github.com/aamibhoot)
-
----
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
