@@ -27,8 +27,12 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package.json ./
 
-# Expose the port that the app will run on
-EXPOSE 3000
-
 # Start the application
 CMD ["npm", "start"]
+
+
+EXPOSE 8080
+
+# Run Next.js server, forcing it to use Cloud Run's PORT
+CMD ["sh", "-c", "node server.js -p ${PORT}"]
+
