@@ -1,48 +1,30 @@
-FROM node:20.10-alpine AS base
+FROM node:lts-alpine AS base
 
-# Install dependencies only when needed
+# Stage 1: Install dependencies
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
-# Install dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci
-
-# Build stage
+# Stage 2: Build the application
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN corepack enable pnpm && pnpm run build
 
-ENV NEXT_TELEMETRY_DISABLED 1
-
-# Generate Prisma client (important for production)
-RUN npx prisma generate
-
-# Build Next.js app
-RUN npm run build
-
-# Production image
+# Stage 3: Production server
 FROM base AS runner
 WORKDIR /app
-
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV PORT=8080
 
-# Create non-root user
-RUN addgroup --system --gid 1001 nodejs \
-  && adduser --system --uid 1001 nextjs
-
-# Copy build output
+# Copy standalone build output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-USER nextjs
-
-# Cloud Run expects the app to listen on $PORT
 EXPOSE 8080
+
+# Run Next.js server, forcing it to use Cloud Run's PORT
 CMD ["sh", "-c", "node server.js -p ${PORT}"]
