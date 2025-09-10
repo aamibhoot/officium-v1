@@ -1,39 +1,34 @@
-# Base image for all stages
-FROM node:lts-alpine AS base
+# Stage 1: Install dependencies and build the application
+FROM node:16 AS builder
+
+# Set working directory
 WORKDIR /app
-RUN corepack enable pnpm
 
-# --- Dependencies ---
-# Install all dependencies and create a base for the prisma client
-FROM base AS deps
-COPY package.json pnpm-lock.yaml ./
-COPY prisma ./prisma
-RUN pnpm install --frozen-lockfile
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
-# --- Builder ---
-# Build the application
-FROM base AS builder
-# Copy dependencies from previous stage
-COPY --from=deps /app/node_modules ./node_modules
-# Copy the application code
+# Install dependencies
+RUN npm install
+
+# Copy all source code into the container
 COPY . .
-# Generate prisma client and build the app
-RUN pnpm prisma generate
-RUN pnpm run build
 
-# --- Runner ---
-# Final, small production image
-FROM base AS runner
+# Build the Next.js application
+RUN npm run build
+
+# Stage 2: Production image
+FROM node:16-alpine AS production
+
+# Set working directory
 WORKDIR /app
-ENV NODE_ENV=production
 
-# Copy the standalone output
-COPY --from=builder /app/.next/standalone ./
-# Copy public and static assets
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/static ./.next/static
-# Copy the generated Prisma client and engine from the builder stage
-COPY --from=builder /app/lib/generated/prisma ./lib/generated/prisma
-COPY --from=builder /app/node_modules/.prisma/client ./node_modules/.prisma/client
+# Copy only the necessary files from the build stage
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/package.json ./
 
-CMD ["node", "server.js"]
+# Expose the port that the app will run on
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]
